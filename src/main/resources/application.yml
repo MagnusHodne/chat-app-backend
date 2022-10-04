@@ -1,10 +1,10 @@
-# src/main/resources/application.yml
 spring:
   security:
     oauth2:
       client:
         registration:
           auth0:
+            audience: ${AUTH0_AUDIENCE}
             client-id: ${AUTH0_CLIENT_ID}
             client-secret: ${AUTH0_CLIENT_SECRET}
             scope:
@@ -13,5 +13,9 @@ spring:
               - email
         provider:
           auth0:
-            # trailing slash is important!
-            issuer-uri: ${AUTH0_ISSUER_URI}/
+            issuer-uri: ${AUTH0_DOMAIN}
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH0_DOMAIN}
+server:
+  port: 5000
