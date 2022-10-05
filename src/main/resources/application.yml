@@ -4,7 +4,6 @@ spring:
       client:
         registration:
           auth0:
-            audience: ${AUTH0_AUDIENCE}
             client-id: ${AUTH0_CLIENT_ID}
             client-secret: ${AUTH0_CLIENT_SECRET}
             scope:
@@ -14,8 +13,5 @@ spring:
         provider:
           auth0:
             issuer-uri: ${AUTH0_DOMAIN}
-      resourceserver:
-        jwt:
-          issuer-uri: ${AUTH0_DOMAIN}
 server:
   port: 5000
