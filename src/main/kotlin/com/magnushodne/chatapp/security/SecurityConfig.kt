@@ -16,7 +16,7 @@ class SecurityConfig {
 
     @Value("\${auth0.audience}")
     private val audience: String? = null
-    @Value("\${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    @Value("\${auth0.domain}")
     private val issuer: String? = null
 
     @Bean
@@ -35,8 +35,8 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeRequests()
             .mvcMatchers("/").permitAll()
-            .anyRequest().authenticated()
-            .and().oauth2Login()
+            .anyRequest().authenticated().and()
+            .oauth2Login()
         return http.build()
     }
 }
