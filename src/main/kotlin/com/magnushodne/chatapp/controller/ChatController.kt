@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/chats")
 class ChatController {
 
-    @GetMapping("/")
-    fun getAllChats(): ResponseEntity<List<Message>>{
-        return ResponseEntity.ok().body(ArrayList())
+    @GetMapping
+    fun getAllChats(): ResponseEntity<String>{
+        return ResponseEntity.ok().body("This will be a list of messages")
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     fun deleteOne(): ResponseEntity.BodyBuilder {
         throw NotImplementedException("Not yet implemented")
     }
