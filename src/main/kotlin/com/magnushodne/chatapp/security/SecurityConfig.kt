@@ -34,10 +34,11 @@ class SecurityConfig {
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        http.sessionManagement().disable()
         http.authorizeRequests()
             .mvcMatchers("/").permitAll()
             .anyRequest().authenticated().and()
-            .oauth2Login()
+            .oauth2ResourceServer().jwt()
         return http.build()
     }
 }
