@@ -12,34 +12,37 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import java.util.*
+
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
 
     @Value("\${auth0.audience}")
-    private val audience: String? = null
+    private lateinit var audience: String
+
     @Value("\${auth0.domain}")
-    private val issuer: String? = null
+    private lateinit var issuer: String
 
     @Bean
     fun jwtDecoder(): JwtDecoder? {
+        //Get a decoder from our issuer (Auth0)
         val jwtDecoder = JwtDecoders.fromOidcIssuerLocation<JwtDecoder>(issuer) as NimbusJwtDecoder
-        val audienceValidator: OAuth2TokenValidator<Jwt> = AudienceValidator(audience!!)
+        val audienceValidator: OAuth2TokenValidator<Jwt> = AudienceValidator(audience)
+
         val withIssuer: OAuth2TokenValidator<Jwt> = JwtValidators.createDefaultWithIssuer(issuer)
         val withAudience: OAuth2TokenValidator<Jwt> = DelegatingOAuth2TokenValidator(withIssuer, audienceValidator)
         jwtDecoder.setJwtValidator(withAudience)
         return jwtDecoder
     }
 
-
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.cors()
-            .configurationSource(corsConfigurationSource()).and()
+        http.sessionManagement().disable()
+        http.cors().configurationSource(corsConfigurationSource()).and()
             .authorizeRequests()
+            .mvcMatchers("/").permitAll()
             .anyRequest().authenticated().and()
             .oauth2ResourceServer().jwt()
 
@@ -49,11 +52,10 @@ class SecurityConfig {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf(
-            "http://localhost:5000/",
-        )
-        configuration.allowedMethods = listOf("*")
-        configuration.allowedHeaders = Collections.singletonList("*")
+
+        configuration.allowedOrigins = listOf("http://localhost:3000")
+        configuration.allowedHeaders = listOf("*")
+
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
