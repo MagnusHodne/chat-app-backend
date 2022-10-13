@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
@@ -28,6 +29,7 @@ class SecurityConfig {
         //Get a decoder from our issuer (Auth0)
         val jwtDecoder = JwtDecoders.fromOidcIssuerLocation<JwtDecoder>(issuer) as NimbusJwtDecoder
         val audienceValidator: OAuth2TokenValidator<Jwt> = AudienceValidator(audience)
+
         val withIssuer: OAuth2TokenValidator<Jwt> = JwtValidators.createDefaultWithIssuer(issuer)
         val withAudience: OAuth2TokenValidator<Jwt> = DelegatingOAuth2TokenValidator(withIssuer, audienceValidator)
         jwtDecoder.setJwtValidator(withAudience)
@@ -43,17 +45,19 @@ class SecurityConfig {
             .mvcMatchers("/").permitAll()
             .anyRequest().authenticated().and()
             .oauth2ResourceServer().jwt()
+
         return http.build()
     }
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
+
         configuration.allowedOrigins = listOf("http://localhost:3000")
         configuration.allowedHeaders = listOf("*")
+
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
-
 }

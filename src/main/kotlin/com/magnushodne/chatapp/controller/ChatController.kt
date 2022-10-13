@@ -14,7 +14,7 @@ class ChatController {
 
     @GetMapping
     fun getAllChats(): ResponseEntity<String>{
-        return ResponseEntity.ok().body("This should return all chats")
+        return ResponseEntity.ok().body("This will be a list of messages")
     }
 
     @DeleteMapping

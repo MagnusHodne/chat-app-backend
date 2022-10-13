@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+title Data Model
+
+object User {
+    id: UUID
+    name: String
+    sub: String
+    picture: String
+    bio: String
+    'created_at: Date
+    'updated_at: Date
+}
+
+object Message {
+    id: UUID
+    user_id: UUID **FK**
+    'Rename to content later
+    message: String
+    created_at: Date
+    'updated_at: Date **not yet implemented**
+}
+
+User "1" -- "0..*" Message
+
+@enduml
