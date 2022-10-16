@@ -1,27 +1,52 @@
 @startuml
 'https://plantuml.com/object-diagram
 
-title Data Model
+title Data model
 
 object User {
-    id: UUID
-    name: String
+    user_id: UUID **PK**
+    ..
     sub: String
+    name: String
     picture: String
     bio: String
-    'created_at: Date
-    'updated_at: Date
+    created_at: Date
+    updated_at: Date
+}
+
+object Server {
+    server_id: UUID **PK**
+    ..
+    owner_id: UUID **FK**
+    name: String
+    created_at: Date
+    updated_at: Date
+}
+
+object Channel {
+    channel_id: UUID **PK**
+    ..
+    server_id: UUID **FK**
+    name: String
+    created_at: Date
+    updated_at: Date
 }
 
 object Message {
-    id: UUID
+    message_id: UUID **PK**
+    ..
     user_id: UUID **FK**
-    'Rename to content later
+    channel_id: UUID **FK**
     message: String
     created_at: Date
-    'updated_at: Date **not yet implemented**
+    updated_at: Date
 }
 
-User "1" -- "0..*" Message
+
+User "1" - "0..*" Server::user_id: owns
+User "1" -- "0..*" Message::user_id
+User "0..*" -- "0..*" Server::user_id: member of
+Server "1" -- "1..*" Channel::server_id
+Channel "1" -- "0..*" Message::channel_id
 
 @enduml
