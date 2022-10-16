@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 class UserService(@Autowired private val userRepository: UserRepository) {
 
     // Called every time a user logs in
-    fun registerLogin(sub: String): User? {
+    fun registerLogin(sub: UserInfoRequestBody): User? {
         val existingUser = userRepository.findBySubEquals(sub)
 
         existingUser?.let {
