@@ -8,7 +8,7 @@ create table users (
     updated_at timestamp not null default now()
 );
 
-create table server (
+create table servers (
     server_id serial primary key,
     owner_id int references users(user_id),
     name varchar(255) not null,
@@ -17,7 +17,7 @@ create table server (
     updated_at timestamp not null default now()
 );
 
-create table channel (
+create table channels (
     channel_id serial primary key,
     server_id int not null references server(server_id),
     name varchar(255) not null,
@@ -26,7 +26,7 @@ create table channel (
     updated_at timestamp not null default now()
 );
 
-create table message (
+create table messages (
     message_id serial primary key,
     channel_id int not null references channel(channel_id),
     user_id int not null references users(user_id),
