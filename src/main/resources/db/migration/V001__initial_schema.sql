@@ -10,7 +10,7 @@ create table users (
 
 create table server (
     server_id serial primary key,
-    owner_id int not null references users(user_id),
+    owner_id int references users(user_id),
     name varchar(255) not null,
     description varchar(255),
     created_at timestamp not null default now(),
