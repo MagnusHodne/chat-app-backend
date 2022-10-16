@@ -1,8 +1,8 @@
 # Build the application
 FROM maven:3.8.6-amazoncorretto-17 as builder
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
+COPY ../pom.xml .
+COPY ../src ./src
 RUN mvn package
 
 # Run it from a minimal linux distro
