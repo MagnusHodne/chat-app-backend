@@ -28,5 +28,10 @@ class User(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime = LocalDateTime.now()
-)
+    val updatedAt: LocalDateTime = LocalDateTime.now(),
+
+    @Column(name = "last_login")
+    var lastLogin: LocalDateTime = LocalDateTime.now()
+) {
+
+}

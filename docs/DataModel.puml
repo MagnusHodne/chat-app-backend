@@ -12,6 +12,7 @@ object User {
     description: String
     created_at: Date
     updated_at: Date
+    last_login: Date
 }
 
 object Server {
