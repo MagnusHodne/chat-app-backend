@@ -7,9 +7,9 @@ object User {
     user_id: UUID **PK**
     ..
     sub: String
-    name: String
+    username: String
     picture: String
-    bio: String
+    description: String
     created_at: Date
     updated_at: Date
 }
@@ -28,6 +28,7 @@ object Channel {
     ..
     server_id: UUID **FK**
     name: String
+    description: String
     created_at: Date
     updated_at: Date
 }
@@ -37,9 +38,16 @@ object Message {
     ..
     user_id: UUID **FK**
     channel_id: UUID **FK**
-    message: String
+    content: String
     created_at: Date
     updated_at: Date
+}
+
+object server_user {
+    server_id: UUID **FK**
+    user_id: UUID **FK**
+    ..
+    created_at: Date
 }
 
 
