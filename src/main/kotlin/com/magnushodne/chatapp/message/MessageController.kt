@@ -1,6 +1,5 @@
-package com.magnushodne.chatapp.controller
+package com.magnushodne.chatapp.message
 
-import com.magnushodne.chatapp.model.Message
 import jdk.jshell.spi.ExecutionControl.NotImplementedException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/chats")
-class ChatController {
+class MessageController {
 
     @GetMapping
     fun getAllChats(): ResponseEntity<String>{
