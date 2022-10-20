@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(@Autowired private val userService: UserService) {
 
     @PostMapping("/login")
-    fun registerLogin(@RequestBody userInfo: UserInfoRequestBody): ResponseEntity<User> {
+    fun registerLogin(@RequestBody userInfo: UserInfoRequestBody): ResponseEntity<UserEntity> {
         return userService.registerLogin(userInfo)?.let { ResponseEntity.ok().body(it) } ?: ResponseEntity.badRequest().build()
     }
 }

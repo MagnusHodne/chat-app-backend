@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 class UserService(@Autowired private val userRepository: UserRepository) {
 
     // Called every time a user logs in
-    fun registerLogin(sub: UserInfoRequestBody): User? {
-        val existingUser = userRepository.findBySubEquals(sub)
+    fun registerLogin(user: UserInfoRequestBody): UserEntity? {
+        val existingUser = userRepository.findBySubEquals(user.sub)
 
         existingUser?.let {
             existingUser.lastLogin = LocalDateTime.now()
@@ -19,28 +19,28 @@ class UserService(@Autowired private val userRepository: UserRepository) {
                 null
             }
         }
-        val newUser = User(sub = sub, username = "New user", picture = "", description = "")
+        val newUserEntity = UserEntity(sub = user.sub, username = user.name, picture = "", description = "")
 
         return try {
-            userRepository.save(newUser)
+            userRepository.save(newUserEntity)
         } catch (e: Exception) {
             null
         }
     }
 
-    fun getAllUsers(): List<User> {
+    fun getAllUsers(): List<UserEntity> {
         return userRepository.findAll()
     }
 
-    fun getUserById(id: Long): User? {
+    fun getUserById(id: Long): UserEntity? {
         return userRepository.findById(id).orElse(null)
     }
 
-    fun getUserBySub(sub: String): User? {
+    fun getUserBySub(sub: String): UserEntity? {
         return userRepository.findBySubEquals(sub)
     }
 
-    fun createUser(user: User): User {
-        return userRepository.save(user)
+    fun createUser(userEntity: UserEntity): UserEntity {
+        return userRepository.save(userEntity)
     }
 }
