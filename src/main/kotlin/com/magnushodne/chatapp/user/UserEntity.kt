@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "users")
 class UserEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
     @SequenceGenerator(name = "users_user_id_seq", allocationSize = 1)
     @Column(name = "user_id")
     val id: Long? = null,
