@@ -5,7 +5,8 @@ CREATE TABLE users (
     picture varchar(255),
     description varchar(255),
     created_at timestamp not null default now(),
-    updated_at timestamp not null default now()
+    updated_at timestamp not null default now(),
+    last_login timestamp not null default now()
 );
 
 CREATE TABLE servers (
