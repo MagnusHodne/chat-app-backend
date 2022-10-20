@@ -1,13 +1,13 @@
 package com.magnushodne.chatapp.message
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.magnushodne.chatapp.user.User
+import com.magnushodne.chatapp.user.UserEntity
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
 @Table(name = "messages")
-class Message(
+class MessageEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "messages_message_id_seq")
     @SequenceGenerator(name = "messages_message_id_seq", allocationSize = 1)
@@ -30,12 +30,7 @@ class Message(
     val updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "users",
-        joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "user_id")],
-        inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "user_id")]
-    )
-    var author: User? = null
+    @OneToOne(cascade = [CascadeType.ALL])
+    var author: UserEntity? = null
 
 }
