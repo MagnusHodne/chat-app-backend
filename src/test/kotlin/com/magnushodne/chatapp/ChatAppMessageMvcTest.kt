@@ -28,21 +28,6 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
             .claim("scope", "read")
             .build()
 
-    @BeforeEach
-    fun registerLogin_withValidJwtToken_returnsOk() {
-        mockMvc.post("http://localhost:5000/api/v1/users/login") {
-            with(jwt().jwt(jwt))
-            contentType = MediaType.APPLICATION_JSON
-            content = JSONObject()
-                .put("sub", "auth0|testsub")
-                .put("name", "testuser")
-                .put("picture", "").toString()
-        }
-            .andExpect { status { isOk() } }
-            .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
-            .andExpect { jsonPath("$.id") { exists() } }
-    }
-
     @Test
     @Throws(Exception::class)
     fun getMessages_withoutValidJwt_returnsUnauthorized() {
