@@ -30,19 +30,5 @@ class MessageService(
     fun getAllMessages(): List<MessageEntity> {
         return messageRepository.findAll()
     }
-
-    fun updateMessage(message: MessageEntity): MessageEntity? {
-        message.id?.let {
-            return messageRepository.save(message)
-        }
-        return null
-    }
-
-    fun deleteOneMessage(id: Long): Boolean {
-        val message = messageRepository.findByIdOrNull(id)
-        message?.let { messageRepository.delete(it)
-            return true
-        }?: return false
-    }
 }
 
