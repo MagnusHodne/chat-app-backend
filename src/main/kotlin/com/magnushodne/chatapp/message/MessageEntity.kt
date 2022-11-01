@@ -1,6 +1,5 @@
 package com.magnushodne.chatapp.message
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.magnushodne.chatapp.user.UserEntity
 import java.time.LocalDateTime
 import javax.persistence.*
