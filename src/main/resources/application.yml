@@ -1,3 +1,6 @@
+auth0:
+  audience: http://localhost:5000
+  domain: https://magnushodne.eu.auth0.com/
 spring:
   flyway:
     enabled: true
@@ -10,12 +13,18 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/chat-app-db
+    username: localDevUser
+    password: localDevPassword
     driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      platform: chat-app-db
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://magnushodne.eu.auth0.com/
       client:
         registration:
           auth0:
@@ -27,6 +36,6 @@ spring:
               - email
         provider:
           auth0:
-            issuer-uri: ${AUTH0_DOMAIN}
+            issuer-uri: https://magnushodne.eu.auth0.com/
 server:
   port: 5000
