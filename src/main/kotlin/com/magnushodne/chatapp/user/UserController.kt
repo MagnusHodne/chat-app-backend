@@ -17,5 +17,5 @@ class UserController(@Autowired private val userService: UserService) {
     }
 }
 
-data class UserInfoRequestBody(val sub: String, val name: String, val picture: String)
+data class UserInfoRequestBody(val sub: String, val username: String, val picture: String)
 

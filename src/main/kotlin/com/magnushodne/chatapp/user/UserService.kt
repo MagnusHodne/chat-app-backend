@@ -19,7 +19,7 @@ class UserService(@Autowired private val userRepository: UserRepository) {
                 null
             }
         }
-        val newUserEntity = UserEntity(sub = user.sub, username = user.name, picture = "", description = "")
+        val newUserEntity = UserEntity(sub = user.sub, username = user.username, picture = "", description = "")
 
         return try {
             userRepository.save(newUserEntity)
