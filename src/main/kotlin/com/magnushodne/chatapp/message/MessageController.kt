@@ -27,14 +27,4 @@ class MessageController(@Autowired private val messageService: MessageService) {
         return ResponseEntity.ok(messageService.getAllMessages())
     }
 
-    @PutMapping("/{id}")
-    fun updateMessage(@PathVariable id: Long, @RequestBody message: MessageEntity): ResponseEntity<MessageEntity?> {
-        return ResponseEntity.ok(messageService.updateMessage(message))
-    }
-
-    @DeleteMapping("/{id}")
-    fun deleteOneMessage(@PathVariable id: Long): ResponseEntity<Boolean> {
-        return ResponseEntity.ok(messageService.deleteOneMessage(id))
-    }
-
 }
