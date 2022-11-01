@@ -1,6 +1,6 @@
 package com.magnushodne.chatapp.message
 
-import jdk.jshell.spi.ExecutionControl.NotImplementedException
+import com.magnushodne.chatapp.dtos.NewMessageDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 class MessageController(@Autowired private val messageService: MessageService) {
 
     @PostMapping
-    fun createMessage(@RequestBody message: MessageEntity): ResponseEntity<MessageEntity> {
+    fun createMessage(@RequestBody message: NewMessageDto): ResponseEntity<MessageEntity> {
         return ResponseEntity.ok(messageService.createMessage(message))
     }
 

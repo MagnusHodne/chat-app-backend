@@ -36,4 +36,18 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
             with(jwt())
         } .andExpect { status { isOk() } }
     }
+
+    @Test
+    fun postMessage_withValidJwtToken_returnsOk() {
+        val messagePayload = JSONObject().put("content", "Hello world").put("channelId", 1).put("authorId", 1)
+
+        mockMvc.post(baseUrl) {
+            with(jwt())
+            contentType = MediaType.APPLICATION_JSON
+            content = messagePayload.toString()
+        }
+            .andExpect { status { isOk() } }
+            .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
+            .andExpect { content { json(messagePayload.toString()) } }
+    }
 }
