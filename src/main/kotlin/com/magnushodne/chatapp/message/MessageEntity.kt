@@ -1,5 +1,6 @@
 package com.magnushodne.chatapp.message
 
+import com.magnushodne.chatapp.channel.ChannelEntity
 import com.magnushodne.chatapp.user.UserEntity
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -13,9 +14,6 @@ class MessageEntity(
     @Column(name = "message_id")
     val id: Long? = null,
 
-    @Column(name = "channel_id")
-    val channelId: Long,
-
     @Column(name = "content")
     val content: String,
 
@@ -28,5 +26,9 @@ class MessageEntity(
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     var author: UserEntity? = null
+
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "channel_id", referencedColumnName = "channel_id")
+    var channel: ChannelEntity? = null
 
 }

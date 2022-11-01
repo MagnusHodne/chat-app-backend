@@ -59,6 +59,7 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
             .andExpect { status { isCreated() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andExpect { content { jsonPath("$.id") { exists() } } }
-            .andExpect { content { jsonPath("$.id") { exists() } } }
+            .andExpect { content { jsonPath("$.content") { exists() } } }
+            .andExpect { content { jsonPath("$.channel") { exists() } } }
     }
 }
