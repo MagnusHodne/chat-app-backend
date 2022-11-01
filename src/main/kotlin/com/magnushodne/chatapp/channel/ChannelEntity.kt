@@ -1,5 +1,6 @@
 package com.magnushodne.chatapp.channel
 
+import com.magnushodne.chatapp.server.ServerEntity
 import java.time.LocalDateTime
 import javax.persistence.*
 
