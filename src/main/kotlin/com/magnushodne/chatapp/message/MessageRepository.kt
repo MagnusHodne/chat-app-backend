@@ -4,4 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MessageRepo : JpaRepository<MessageEntity, Long>
+interface MessageRepository : JpaRepository<MessageEntity, Long>
