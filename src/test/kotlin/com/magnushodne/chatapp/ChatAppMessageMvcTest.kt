@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -21,11 +22,16 @@ import org.springframework.test.web.servlet.post
 class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
 
     val baseUrl = "http://localhost:5000/api/v1/chats"
+    val jwt: Jwt = Jwt.withTokenValue("token")
+            .header("alg", "none")
+            .claim("sub", "user")
+            .claim("scope", "read")
+            .build()
 
     @BeforeEach
     fun registerLogin_withValidJwtToken_returnsOk() {
         mockMvc.post("http://localhost:5000/api/v1/users/login") {
-            with(jwt())
+            with(jwt().jwt(jwt))
             contentType = MediaType.APPLICATION_JSON
             content = JSONObject()
                 .put("sub", "auth0|testsub")
@@ -50,7 +56,7 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
     @Throws(Exception::class)
     fun getMessages_withValidJwtToken_returnsOk() {
         mockMvc.get(baseUrl) {
-            with(jwt())
+            with(jwt().jwt(jwt))
         }.andExpect { status { isOk() } }
     }
 
@@ -59,7 +65,7 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
         val messagePayload = JSONObject().put("content", "Hello world").put("channelId", 1).put("authorId", 1)
 
         mockMvc.post(baseUrl) {
-            with(jwt())
+            with(jwt().jwt(jwt))
             contentType = MediaType.APPLICATION_JSON
             content = messagePayload.toString()
         }
