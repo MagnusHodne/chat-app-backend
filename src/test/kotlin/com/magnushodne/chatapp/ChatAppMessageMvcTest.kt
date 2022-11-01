@@ -1,6 +1,8 @@
 package com.magnushodne.chatapp
 
 import org.json.JSONObject
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -20,6 +22,21 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
 
     val baseUrl = "http://localhost:5000/api/v1/chats"
 
+    @BeforeEach
+    fun registerLogin_withValidJwtToken_returnsOk() {
+        mockMvc.post("http://localhost:5000/api/v1/users/login") {
+            with(jwt())
+            contentType = MediaType.APPLICATION_JSON
+            content = JSONObject()
+                .put("sub", "auth0|testsub")
+                .put("name", "testuser")
+                .put("picture", "").toString()
+        }
+            .andExpect { status { isOk() } }
+            .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
+            .andExpect { jsonPath("$.id") { exists() } }
+    }
+
     @Test
     @Throws(Exception::class)
     fun getMessages_withoutValidJwt_returnsUnauthorized() {
@@ -34,7 +51,7 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
     fun getMessages_withValidJwtToken_returnsOk() {
         mockMvc.get(baseUrl) {
             with(jwt())
-        } .andExpect { status { isOk() } }
+        }.andExpect { status { isOk() } }
     }
 
     @Test
@@ -48,6 +65,7 @@ class ChatAppMessageMvcTest(@Autowired private val mockMvc: MockMvc) {
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
-            .andExpect { content { json(messagePayload.toString()) } }
+            .andExpect { content { jsonPath("$.id") { exists() } } }
+            .andExpect { content { jsonPath("$.id") { exists() } } }
     }
 }
