@@ -17,9 +17,6 @@ class MessageEntity(
     @Column(name = "channel_id")
     val channelId: Long,
 
-    @Column(name = "user_id")
-    val userId: Long,
-
     @Column(name = "content")
     val content: String,
 
@@ -29,8 +26,8 @@ class MessageEntity(
     @Column(name = "updated_at")
     val updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
-    @JsonIgnore
     @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     var author: UserEntity? = null
 
 }
